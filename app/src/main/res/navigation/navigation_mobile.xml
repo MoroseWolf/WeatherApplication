@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_mobile"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@+id/navigation_fiveDays">
+
+    <fragment
+        android:id="@+id/navigation_currentDay"
+        android:name="com.example.weatherapplication.ui.screens.currentDay.CurrentDayFragment"
+        android:label="@string/today"
+        tools:layout="@layout/item_five_days" />
+
+    <fragment
+        android:id="@+id/navigation_fiveDays"
+        android:name="com.example.weatherapplication.ui.screens.fiveDays.FiveDaysFragment"
+        android:label="@string/forecast"
+        tools:layout="@layout/activity_five_days" />
+
+</navigation>

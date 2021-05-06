@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_currentDay"
+        android:icon="@drawable/today_bottombar_icon"
+        android:title="@string/today" />
+
+    <item
+        android:id="@+id/navigation_fiveDays"
+        android:icon="@drawable/forecast_bottombar_icon"
+        android:title="@string/forecast" />
+
+</menu>
