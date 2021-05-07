@@ -21,7 +21,7 @@ class FiveDaysPresenter: FiveDaysContract.Presenter {
             .getFiveDaysWeather()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .doOnTerminate {view.showLoading(false)}
+            //.doOnTerminate {view.showLoading(false)}
             .subscribe(
                 { weather ->
                     view.loadWeatherList(weather)

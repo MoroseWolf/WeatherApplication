@@ -9,5 +9,7 @@ class MainContract {
     }
 
     interface Presenter: BaseContract.Presenter<MainContract.View> {
+        fun openCurrentDay()
+        fun openFiveDays()
     }
 }

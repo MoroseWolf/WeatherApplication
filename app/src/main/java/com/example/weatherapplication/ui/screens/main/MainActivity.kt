@@ -1,7 +1,7 @@
 package com.example.weatherapplication.ui.screens.main
 
 import android.os.Bundle
-import android.text.Html
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -10,6 +10,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.weatherapplication.R
 import com.example.weatherapplication.di.component.DaggerActivityComponent
 import com.example.weatherapplication.di.module.ActivityModule
+import com.example.weatherapplication.ui.screens.currentDay.CurrentDayFragment
 import com.example.weatherapplication.ui.screens.fiveDays.FiveDaysFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import javax.inject.Inject
@@ -30,7 +31,8 @@ class MainActivity: AppCompatActivity(), MainContract.View {
             R.id.navigation_currentDay,
             R.id.navigation_fiveDays
         ))
-        setupActionBarWithNavController(navController, appBarConfiguration)
+
+        appBarConfiguration.fallbackOnNavigateUpListener
         navView.setupWithNavController(navController)
 
         injectDependency()
@@ -47,13 +49,31 @@ class MainActivity: AppCompatActivity(), MainContract.View {
     }
 
     override fun showCurrentDayFragment() {
-        //TODO("Not yet implemented")
+        supportFragmentManager.beginTransaction()
+            .detach(FiveDaysFragment())
+            .disallowAddToBackStack()
+            .replace(R.id.nav_host_fragment, CurrentDayFragment().newInstance(), CurrentDayFragment.TAG)
+            .commit()
     }
 
     override fun showFiveDaysFragment() {
         supportFragmentManager.beginTransaction()
             .disallowAddToBackStack()
-            .replace(R.id.frame, FiveDaysFragment().newInstance(), FiveDaysFragment.TAG)
+            .replace(R.id.nav_host_fragment, FiveDaysFragment().newInstance(), FiveDaysFragment.TAG)
             .commit()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.navigation_currentDay -> {
+                presenter.openCurrentDay()
+                return true
+            }
+            R.id.navigation_fiveDays -> {
+                presenter.openFiveDays()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
