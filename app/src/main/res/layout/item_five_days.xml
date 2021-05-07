@@ -51,9 +51,10 @@
             android:id="@+id/weather_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
             card_view:layout_constraintBottom_toTopOf="@+id/weather_message"
             card_view:layout_constraintEnd_toStartOf="@+id/weather_temperature"
-            card_view:layout_constraintHorizontal_bias="0.149"
+            card_view:layout_constraintHorizontal_bias="0.0"
             card_view:layout_constraintStart_toEndOf="@+id/weather_image"
             card_view:layout_constraintTop_toTopOf="parent"
             card_view:layout_constraintVertical_bias="1.0" />
