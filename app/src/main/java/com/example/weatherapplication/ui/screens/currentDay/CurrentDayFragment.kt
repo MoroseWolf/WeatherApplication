@@ -64,8 +64,10 @@ class CurrentDayFragment : Fragment(), CurrentDayContract.View {
 
     override fun loadCurrentWeather(weather: CurrentDayObject) {
         val testText = rootView.findViewById<TextView>(R.id.real_temp)
+        val header = activity?.findViewById<TextView>(R.id.header_textView)
 
         testText!!.text = weather.main.temp.toInt().toString()
+        header!!.text = resources.getText(R.string.today)
 
     }
 

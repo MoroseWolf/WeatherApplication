@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -80,6 +81,9 @@ class FiveDaysFragment: Fragment(), FiveDaysContract.View {
     }
 
     override fun loadWeatherList(weather: FiveDaysObject) {
+        val header = activity?.findViewById<TextView>(R.id.header_textView)
+        header!!.text = weather.city.name
+
         var adapter = activity?.let { FiveDaysAdapter(it, weather, this) }
         //val itemView: View
         //val recyclerView: RecyclerView = itemView.findViewById(R.id.recyclerView)
