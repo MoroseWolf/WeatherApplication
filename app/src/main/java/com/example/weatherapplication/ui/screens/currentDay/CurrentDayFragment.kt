@@ -1,10 +1,12 @@
 package com.example.weatherapplication.ui.screens.currentDay
 
+import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -63,10 +65,51 @@ class CurrentDayFragment : Fragment(), CurrentDayContract.View {
     }
 
     override fun loadCurrentWeather(weather: CurrentDayObject) {
-        val testText = rootView.findViewById<TextView>(R.id.real_temp)
         val header = activity?.findViewById<TextView>(R.id.header_textView)
 
-        testText!!.text = weather.main.temp.toInt().toString()
+        val city = rootView.findViewById<TextView>(R.id.location_city)
+        val countryCode = rootView.findViewById<TextView>(R.id.location_country_code)
+        val temperature = rootView.findViewById<TextView>(R.id.location_temperature)
+        val weatherDesc = rootView.findViewById<TextView>(R.id.location_weather)
+
+        val imageWeather = rootView.findViewById<ImageView>(R.id.location_weather_icon)
+        val imageLocation = rootView.findViewById<ImageView>(R.id.image_location)
+
+        val imageHumidity = rootView.findViewById<ImageView>(R.id.location_humidity_icon)
+        val humidity = rootView.findViewById<TextView>(R.id.location_humidity_text)
+        val rainVolume = rootView.findViewById<TextView>(R.id.location_rainVolume_text)
+        val imageRainVolume = rootView.findViewById<ImageView>(R.id.location_rainVolume_icon)
+        val pressure = rootView.findViewById<TextView>(R.id.location_pressure_text)
+        val imagePressure = rootView.findViewById<ImageView>(R.id.location_pressure_icon)
+
+        val wind = rootView.findViewById<TextView>(R.id.location_wind_text)
+        val imageWind = rootView.findViewById<ImageView>(R.id.location_wind_icon)
+
+        val windDegree = rootView.findViewById<TextView>(R.id.location_windDegree_text)
+        val imageWindDegree = rootView.findViewById<ImageView>(R.id.location_windDegree_icon)
+
+
+        city!!.text = weather.name + ","
+        countryCode!!.text = weather.sys.country
+        temperature!!.text = weather.main.temp.toInt().toString() + "°C,"
+        weatherDesc!!.text = weather.weather[0].main
+        imageLocation!!.setImageResource(R.drawable.outline_north_east_black_24dp)
+        imageWeather.setImageResource(setImage(weather.weather[0].main))
+
+        humidity!!.text = weather.main.humidity.toString() + "%"
+        imageHumidity.setImageResource(R.drawable.humidity_icon)
+        rainVolume!!.text = "0 mm"
+        imageRainVolume.setImageResource(R.drawable.drop_icon)
+        //imageRainVolume.setImageResource(R.drawable.outline_north_east_black_24dp)
+        pressure!!.text = weather.main.pressure.toString() + " hPa"
+        imagePressure.setImageResource(R.drawable.pressure_icon)
+
+        wind!!.text = weather.wind.speed.toString() + " m/s"
+        imageWind.setImageResource(R.drawable.wind_120368)
+        windDegree!!.text = setWindDegree(weather.wind.deg)
+        imageWindDegree.setImageResource(R.drawable.compass_icon)
+
+
         header!!.text = resources.getText(R.string.today)
 
     }
@@ -87,4 +130,36 @@ class CurrentDayFragment : Fragment(), CurrentDayContract.View {
     companion object {
         val TAG: String = "CurrentDayFragment"
     }
+
+    private fun setImage(nameWeather: String) : Int =
+        when (nameWeather) {
+            "Rain" -> { R.drawable.rain }
+            "Clouds" -> { R.drawable.clouds }
+            "Clear" -> { R.drawable.sun }
+
+            else -> { R.drawable.ic_launcher_foreground }
+        }
+
+    private fun setWindDegree(degree: Int) : String =
+        when(degree)  {
+            0, 360 -> { "N" }
+            45-> { "NE" }
+            90 -> { "E" }
+            135 -> { "SE" }
+            180 -> { "S" }
+            225 -> { "SW" }
+            270 -> { "W" }
+            315 -> { "NW" }
+            in 1 .. 44 -> { "NNE" }
+            in 46 .. 89 -> { "ENE" }
+            in 91 .. 134 -> { "ESE" }
+            in 136 .. 179 -> { "SSE" }
+            in 181 .. 224 -> { "SSW" }
+            in 226 .. 269 -> { "WSW" }
+            in 271 .. 314 -> { "WNW" }
+            in 316 .. 359 -> { "NNW" }
+
+            else -> { "Unknown" }
+        }
+
 }

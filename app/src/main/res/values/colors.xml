@@ -12,4 +12,7 @@
     <color name="light_blue">#42aaff</color>
     <color name="grey">#808080</color>
     <color name="light_grey">#c7c7c7</color>
+    <color name="yello">#ffff00</color>
+    <color name="cink_yello">#f8f32b</color>
+    <color name="gold">#ffd700</color>
 </resources>
