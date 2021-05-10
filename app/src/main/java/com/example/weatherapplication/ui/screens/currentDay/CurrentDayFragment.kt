@@ -1,6 +1,7 @@
 package com.example.weatherapplication.ui.screens.currentDay
 
-import android.media.Image
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,12 +10,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.weatherapplication.R
 import com.example.weatherapplication.di.component.DaggerFragmentComponent
 import com.example.weatherapplication.di.module.FragmentModule
 import com.example.weatherapplication.model.currentDay.CurrentDayObject
 import com.example.weatherapplication.ui.screens.main.MainContract
+import com.example.weatherapplication.util.PERMISSION_REQUEST_CODE
 import javax.inject.Inject
 
 class CurrentDayFragment : Fragment(), CurrentDayContract.View {
@@ -22,8 +25,9 @@ class CurrentDayFragment : Fragment(), CurrentDayContract.View {
     @Inject
     lateinit var presenter: CurrentDayContract.Presenter
 
-
     private lateinit var rootView: View
+
+    private var permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
 
     fun newInstance(): CurrentDayFragment {
         return CurrentDayFragment()
@@ -42,6 +46,11 @@ class CurrentDayFragment : Fragment(), CurrentDayContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if(!checkGeolocationPermission()) {
+            ActivityCompat.requestPermissions(requireActivity(), permissions, PERMISSION_REQUEST_CODE)
+        }
+
         presenter.attach(this)
         presenter.subscribe()
         initView()
@@ -161,5 +170,13 @@ class CurrentDayFragment : Fragment(), CurrentDayContract.View {
 
             else -> { "Unknown" }
         }
+
+
+    private fun checkGeolocationPermission() : Boolean {
+        return context?.let { ActivityCompat.checkSelfPermission(it, Manifest.permission.ACCESS_COARSE_LOCATION) } == PackageManager.PERMISSION_GRANTED &&
+                context?.let { ActivityCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) } == PackageManager.PERMISSION_GRANTED
+
+
+    }
 
 }
