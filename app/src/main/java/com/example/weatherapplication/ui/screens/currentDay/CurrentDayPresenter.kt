@@ -1,7 +1,13 @@
 package com.example.weatherapplication.ui.screens.currentDay
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import android.location.Location
+import androidx.core.app.ActivityCompat
 import com.example.weatherapplication.api.WeatherService
-import com.example.weatherapplication.ui.screens.fiveDays.FiveDaysContract
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -12,9 +18,9 @@ class CurrentDayPresenter : CurrentDayContract.Presenter {
     private val api: WeatherService = WeatherService.create()
     private lateinit var view: CurrentDayContract.View
 
-    override fun loadWeather() {
+    override fun loadWeather(currentLocation: Location) {
         var subscription = api
-            .getCurrentWeather()
+            .getCurrentWeather(currentLocation.latitude, currentLocation.longitude)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(
@@ -38,6 +44,37 @@ class CurrentDayPresenter : CurrentDayContract.Presenter {
 
     override fun attach(view: CurrentDayContract.View) {
         this.view = view
+    }
+
+    override fun getGeolocationInfo(applicationContext: Context) {
+        var fusedLocationProviderClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(applicationContext)
+        if (ActivityCompat.checkSelfPermission(
+                applicationContext,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                applicationContext,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+
+        }
+        else {
+            fusedLocationProviderClient.lastLocation
+                .addOnSuccessListener {
+                    location: Location? ->
+                    if (location != null) {
+                        loadWeather(location)
+                    }
+                }
+        }
+
     }
 
 }

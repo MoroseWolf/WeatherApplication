@@ -1,5 +1,7 @@
 package com.example.weatherapplication.ui.screens.fiveDays
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +17,7 @@ import com.example.weatherapplication.R
 import com.example.weatherapplication.di.component.DaggerFragmentComponent
 import com.example.weatherapplication.di.module.FragmentModule
 import com.example.weatherapplication.model.fiveDays.FiveDaysObject
+import com.example.weatherapplication.util.PERMISSION_REQUEST_CODE
 import javax.inject.Inject
 
 class FiveDaysFragment: Fragment(), FiveDaysContract.View {
@@ -23,6 +27,8 @@ class FiveDaysFragment: Fragment(), FiveDaysContract.View {
 
     private lateinit var rootView: View
     //private lateinit var recyclerView1: RecyclerView
+
+    private var permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
 
     fun newInstance(): FiveDaysFragment {
         return FiveDaysFragment()
@@ -49,13 +55,18 @@ class FiveDaysFragment: Fragment(), FiveDaysContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if(!checkGeolocationPermission()) {
+            ActivityCompat.requestPermissions(requireActivity(), permissions, PERMISSION_REQUEST_CODE)
+        }
+
         presenter.attach(this)
         presenter.subscribe()
         initView()
     }
 
     private fun initView() {
-        presenter.loadWeather()
+        context?.applicationContext?.let { presenter.getGeolocationInfo(it) }
     }
 
     override fun onDestroyView() {
@@ -98,5 +109,12 @@ class FiveDaysFragment: Fragment(), FiveDaysContract.View {
 
     companion object {
         val TAG: String = "FiveDaysFragment"
+    }
+
+    private fun checkGeolocationPermission() : Boolean {
+        return context?.let { ActivityCompat.checkSelfPermission(it, Manifest.permission.ACCESS_COARSE_LOCATION) } == PackageManager.PERMISSION_GRANTED &&
+                context?.let { ActivityCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) } == PackageManager.PERMISSION_GRANTED
+
+
     }
 }

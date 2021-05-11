@@ -1,5 +1,7 @@
 package com.example.weatherapplication.ui.screens.currentDay
 
+import android.content.Context
+import android.location.Location
 import com.example.weatherapplication.model.currentDay.CurrentDayObject
 import com.example.weatherapplication.ui.base.BaseContract
 
@@ -12,6 +14,7 @@ class CurrentDayContract {
     }
 
     interface Presenter: BaseContract.Presenter<CurrentDayContract.View> {
-        fun loadWeather()
+        fun getGeolocationInfo(applicationContext: Context)
+        fun loadWeather(currentLocation: Location)
     }
 }

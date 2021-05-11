@@ -11,14 +11,19 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface WeatherService {
 
-    @GET("data/2.5/weather?q=Vitebsk&units=metric$API_KEY")
-    fun getCurrentWeather(): Single<CurrentDayObject>
+    @GET("data/2.5/weather?units=metric$API_KEY")
+    fun getCurrentWeather(@Query(value = "lat") latitude: Double,
+                          @Query(value = "lon") longitude: Double
+    ): Single<CurrentDayObject>
 
-    @GET("data/2.5/forecast?q=Vitebsk&units=metric$API_KEY")
-    fun getFiveDaysWeather(): Observable<FiveDaysObject>
+    @GET("data/2.5/forecast?units=metric$API_KEY")
+    fun getFiveDaysWeather(@Query(value = "lat") latitude: Double,
+                           @Query(value = "lon") longitude: Double)
+            : Observable<FiveDaysObject>
 
 
     companion object {

@@ -16,7 +16,6 @@ import com.example.weatherapplication.R
 import com.example.weatherapplication.di.component.DaggerFragmentComponent
 import com.example.weatherapplication.di.module.FragmentModule
 import com.example.weatherapplication.model.currentDay.CurrentDayObject
-import com.example.weatherapplication.ui.screens.main.MainContract
 import com.example.weatherapplication.util.PERMISSION_REQUEST_CODE
 import javax.inject.Inject
 
@@ -62,7 +61,7 @@ class CurrentDayFragment : Fragment(), CurrentDayContract.View {
     }
 
     private fun initView() {
-        presenter.loadWeather()
+        context?.applicationContext?.let { presenter.getGeolocationInfo(it) }
     }
 
     private fun injectDependency() {

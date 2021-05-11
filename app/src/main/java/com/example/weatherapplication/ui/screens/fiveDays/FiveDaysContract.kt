@@ -1,5 +1,7 @@
 package com.example.weatherapplication.ui.screens.fiveDays
 
+import android.content.Context
+import android.location.Location
 import com.example.weatherapplication.model.fiveDays.FiveDaysObject
 import com.example.weatherapplication.ui.base.BaseContract
 
@@ -13,6 +15,7 @@ class FiveDaysContract {
     }
 
     interface Presenter: BaseContract.Presenter<FiveDaysContract.View> {
-        fun loadWeather()
+        fun getGeolocationInfo(applicationContext: Context)
+        fun loadWeather(currentLocation: Location)
     }
 }
