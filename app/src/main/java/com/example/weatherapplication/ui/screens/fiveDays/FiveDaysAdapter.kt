@@ -47,7 +47,7 @@ class FiveDaysAdapter(private val context: Context,
         holder.message!!.text = myMessage
         holder.temperature!!.text = myTemperature
         //holder.date!!.text = dateTimeMap["day"]
-        holder.time!!.text = dateTimeMap["time"]
+        holder.time!!.text = dateTimeMap["day"] + " " + dateTimeMap["time"]
         //holder.city!!.text = myCity
         holder.image!!.setImageResource(image)
     }
@@ -81,9 +81,9 @@ class FiveDaysAdapter(private val context: Context,
     private fun getDateAndTime(string: String) : Map<String, String> {
         val dateTime = string.split(" ")
         val time = dateTime[1].dropLast(3)
-        val date = dateTime[0].reversed()
+        val date = dateTime[0].split("-")
 
-        return mapOf("day" to date, "time" to time)
+        return mapOf("day" to "${date[2]}.${date[1]}", "time" to time)
     }
 
     private fun setImage(nameWeather: String) : Int =
