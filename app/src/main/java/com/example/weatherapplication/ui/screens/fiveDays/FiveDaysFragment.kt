@@ -26,7 +26,6 @@ class FiveDaysFragment: Fragment(), FiveDaysContract.View {
     lateinit var presenter: FiveDaysContract.Presenter
 
     private lateinit var rootView: View
-    //private lateinit var recyclerView1: RecyclerView
 
     private var permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
 
@@ -96,11 +95,6 @@ class FiveDaysFragment: Fragment(), FiveDaysContract.View {
         header!!.text = weather.city.name
 
         var adapter = activity?.let { FiveDaysAdapter(it, weather, this) }
-        //val itemView: View
-        //val recyclerView: RecyclerView = itemView.findViewById(R.id.recyclerView)
-        //recyclerView.
-        //val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
-        //var itemView: ViewGroup =
         val recyclerView = rootView.findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = adapter

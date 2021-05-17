@@ -17,8 +17,6 @@ class MainPresenter: MainContract.Presenter {
 
     override fun attach(view: MainContract.View) {
         this.view = view
-        //view.showFiveDaysFragment()
-       // view.showCurrentDayFragment()
     }
 
     override fun openFiveDays(){

@@ -28,7 +28,6 @@ class FiveDaysPresenter: FiveDaysContract.Presenter {
             .getFiveDaysWeather(currentLocation.latitude, currentLocation.longitude)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            //.doOnTerminate {view.showLoading(false)}
             .subscribe(
                 { weather ->
                     view.loadWeatherList(weather)
@@ -39,16 +38,6 @@ class FiveDaysPresenter: FiveDaysContract.Presenter {
                     view.showError(error.toString())
                 }
             )
-            //.doOnTerminate {view.hideLoading()}
-            /*.subscribe(
-                {weatherlist: List<FiveDaysObject>? ->
-                    view.showLoading(false)
-                }, {error ->
-                    view.showLoading(false)
-                    view.showError(error.LocalizedMessage)
-                })
-
-             */
 
         subscriptions.add(subscription)
     }
@@ -95,31 +84,3 @@ class FiveDaysPresenter: FiveDaysContract.Presenter {
     }
 
 }
-
-
-/*
-private var subscription: Disposable? = null
-
-override fun onViewCreated() {
-    loadWeather();
-}
-
-fun loadWeather() {
-    view.showLoading()
-    subscription = weatherService
-        .getFiveDaysWeather()
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribeOn(Schedulers.io())
-        .doOnTerminate {view.hideLoading()}
-        .subscribe(
-            { weatherList -> view.updateWeatherList(listOf(weatherList))},
-            { view.showError(R.string.unknown_error)}
-        )
-}
-
-override fun onViewDestroyed() {
-    subscription?.dispose()
-}
-}
-
-*/

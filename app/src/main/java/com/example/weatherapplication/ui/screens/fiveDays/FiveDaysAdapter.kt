@@ -19,7 +19,6 @@ class FiveDaysAdapter(private val context: Context,
                       fragment: Fragment)
     : RecyclerView.Adapter<FiveDaysAdapter.FiveDaysViewHolder>() {
 
-    //private val weatherList: List<FiveDaysObject> = listOf()
     init {
     }
 
@@ -32,7 +31,6 @@ class FiveDaysAdapter(private val context: Context,
 
     override fun getItemCount(): Int {
         return weatherObj.list.size
-        //return 3
     }
 
     override fun onBindViewHolder(holder: FiveDaysViewHolder, position: Int) {
@@ -46,36 +44,18 @@ class FiveDaysAdapter(private val context: Context,
 
         holder.message!!.text = myMessage
         holder.temperature!!.text = myTemperature
-        //holder.date!!.text = dateTimeMap["day"]
         holder.time!!.text = dateTimeMap["day"] + " " + dateTimeMap["time"]
-        //holder.city!!.text = myCity
         holder.image!!.setImageResource(image)
     }
-/*
-    fun updateWeatherList(weatherList: List<FiveDaysObject>) {
-        //this.weatherList = weatherList
-        //notifyDataSetChanged()
-    }
-*/
 
     class FiveDaysViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView)  {
         var layout = itemView.findViewById<CardView>(R.id.item_five_days)
         var message = itemView.findViewById<TextView>(R.id.weather_message)
-        //var city = itemView.findViewById<TextView>(R.id.weather_city)
         var temperature = itemView.findViewById<TextView>(R.id.weather_temperature)
-        //val date  = itemView.findViewById<TextView>(R.id.weather_date)
         val time = itemView.findViewById<TextView>(R.id.weather_time)
 
         val image = itemView.findViewById<ImageView>(R.id.weather_image)
 
-/*
-        fun bind(item: FiveDaysObject) {
-            message = item.message,
-            city = item.city.name
-
-        }
-
- */
     }
 
     private fun getDateAndTime(string: String) : Map<String, String> {
@@ -94,8 +74,5 @@ class FiveDaysAdapter(private val context: Context,
 
             else -> { R.drawable.ic_launcher_foreground }
         }
-
-
-
 
 }

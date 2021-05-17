@@ -108,7 +108,6 @@ class CurrentDayFragment : Fragment(), CurrentDayContract.View {
         imageHumidity.setImageResource(R.drawable.humidity_icon)
         rainVolume!!.text = "0 mm"
         imageRainVolume.setImageResource(R.drawable.drop_icon)
-        //imageRainVolume.setImageResource(R.drawable.outline_north_east_black_24dp)
         pressure!!.text = weather.main.pressure.toString() + " hPa"
         imagePressure.setImageResource(R.drawable.pressure_icon)
 
